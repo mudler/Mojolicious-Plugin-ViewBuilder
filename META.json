@@ -28,7 +28,8 @@
    "prereqs" : {
       "configure" : {
          "requires" : {
-            "Module::Build::Tiny" : "0.035"
+            "Module::Build::Tiny" : "0.035",
+            "perl" : "5.008_001"
          }
       },
       "develop" : {
@@ -42,7 +43,7 @@
       },
       "runtime" : {
          "requires" : {
-            "perl" : "5.008001"
+            "Mojo::Base" : "0"
          }
       },
       "test" : {

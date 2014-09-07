@@ -6,5 +6,7 @@ on configure => sub {
 };
 
 on test => sub {
+    requires 'Mojolicious::Lite';
+    requires 'Test::Mojo';
     requires 'Test::More', '0.98';
 };
