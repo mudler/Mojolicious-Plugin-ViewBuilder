@@ -2,6 +2,10 @@ Revision history for Perl extension Mojolicious-Plugin-ViewBuilder
 
 {{$NEXT}}
 
+0.02 2014-11-19T21:54:55Z
+
+    - now add_view() support code refs as argument
+
 0.01 2014-09-07T12:17:47Z
 
     - first release
