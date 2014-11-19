@@ -17,13 +17,18 @@ Mojolicious::Plugin::ViewBuilder - a Mojolicious plugin that allows to chain tem
     <%= pluggable_view 'profile' %>
 
     # now, in the plugin, that will attach the new helper to the view
-    sub register {
-      my ( $self, $app, $conf ) = @_;
 
-      $app->helper(
-                        test =>   sub { shift->render_to_string("test", some_data=> 1);}
-      );
-      $app->add_view("profile","test"); #attach the test helper to the view "profile"
+    sub register {
+        my ( $self, $app, $conf ) = @_;
+
+        $app->helper(
+            test => sub {
+                shift->render_to_string( "test", some_data => 1 );
+            }
+        );
+
+        #attach the test helper to the view "profile"
+        $app->add_view( "profile", "test" );
 
     }
     1;
@@ -31,16 +36,18 @@ Mojolicious::Plugin::ViewBuilder - a Mojolicious plugin that allows to chain tem
     # or you can append a callback
 
     sub register {
-      my ( $self, $app, $conf ) = @_;
-      $app->add_view(
-          profile => sub { shift->render_to_string("test", some_data=> 1);}
+        my ( $self, $app, $conf ) = @_;
+        $app->add_view(
+            profile => sub {
+                shift->render_to_string( "test", some_data => 42 );
+            }
         );
     }
     1;
     __DATA__
     @@ test.html.ep
     huuuray!
-    % if( stash("some_data") and stash("some_data")==1){
+    % if( stash("some_data") and stash("some_data")==42){
      double it!
     % }
 
