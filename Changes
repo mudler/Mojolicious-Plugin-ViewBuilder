@@ -2,6 +2,8 @@ Revision history for Perl extension Mojolicious-Plugin-ViewBuilder
 
 {{$NEXT}}
 
+0.03 2014-11-19T22:15:14Z
+
     - POD fixes
     - now pluggable_view() pass the args at the attached subs
 
