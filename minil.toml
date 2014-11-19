@@ -1,4 +1,4 @@
 name = "Mojolicious-Plugin-ViewBuilder"
-# badges = ["travis"]
+badges = ["travis"]
 module_maker="ModuleBuildTiny"
 

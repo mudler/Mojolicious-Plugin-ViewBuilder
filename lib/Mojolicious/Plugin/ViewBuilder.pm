@@ -1,10 +1,11 @@
 package Mojolicious::Plugin::ViewBuilder;
-our $VERSION = "0.01";
+our $VERSION = "0.02";
 
 use Mojo::Base 'Mojolicious::Plugin';
 
 sub register {
     my ( $self, $app, $conf ) = @_;
+    push @{ $app->renderer->classes }, __PACKAGE__;
 
     $app->helper(
         add_view => sub {
@@ -15,10 +16,11 @@ sub register {
 
     $app->helper(
         pluggable_view => sub {
-            shift;
+            my $c=shift;
             die "No view defined" unless defined $_[0];
             my $output;
-            $output .= $app->$_() for ( @{ $app->{views}->{ +shift() } } );
+            $output .= ref $_ eq 'CODE' ? $_->( $c, $app ) : $app->$_
+                for ( @{ $app->{views}->{ +shift() } } );
             return $output;
         }
     );
@@ -59,6 +61,16 @@ Mojolicious::Plugin::ViewBuilder - a Mojolicious plugin that allows to chain tem
             );
     }
     1;
+
+    # or, more compact:
+    sub register {
+      my ( $self, $app, $conf ) = @_;
+      $app->add_view(
+            profile => sub {
+                  shift->render_to_string("test", some_data=> 1);
+        });
+    }
+    1;
     __DATA__
     @@ test.html.ep
     huuuray!
@@ -84,6 +96,7 @@ Will render all the attached plugin associated within the view
 =head2 add_view
 
   $app->add_view("view","helper");
+  $app->add_view(view => sub{shift->render_to_string("Hello mojolicious!")});
 
 Attach the "helper" within the "view"
 

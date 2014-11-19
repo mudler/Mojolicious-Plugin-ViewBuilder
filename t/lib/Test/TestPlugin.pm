@@ -6,20 +6,23 @@ sub register {
     my ( $self, $app, $conf ) = @_;
     push @{ $app->renderer->classes }, __PACKAGE__;
     $app->add_view( "activity", "test" );
-    $app->add_view( "activity", "test2" );
+    $app->add_view(
+        "activity",
+        sub {
+            return shift->render_to_string(
+                template => "test2",
+                format   => "html"
+            );
+        }
+    );
+    use Data::Dumper;
+
+    print STDERR Dumper($self);
 
     $app->helper(
         test => sub {
             return shift->render_to_string(
                 template => "test",
-                format   => "html"
-            );
-        }
-    );
-    $app->helper(
-        test2 => sub {
-            return shift->render_to_string(
-                template => "test2",
                 format   => "html"
             );
         }
