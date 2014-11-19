@@ -1,5 +1,5 @@
 package Mojolicious::Plugin::ViewBuilder;
-our $VERSION = "0.02";
+our $VERSION = "0.03";
 
 use Mojo::Base 'Mojolicious::Plugin';
 
@@ -19,7 +19,7 @@ sub register {
             my $c=shift;
             die "No view defined" unless defined $_[0];
             my $output;
-            $output .= ref $_ eq 'CODE' ? $_->( $c, $app ) : $app->$_
+            $output .= ref $_ eq 'CODE' ? $_->( $c, $app,@_ ) : $app->$_($c,@_)
                 for ( @{ $app->{views}->{ +shift() } } );
             return $output;
         }
@@ -40,43 +40,44 @@ Mojolicious::Plugin::ViewBuilder - a Mojolicious plugin that allows to chain tem
 =head1 SYNOPSIS
 
 
-  # Mojolicious
+  #Load the plugin
+
+  # - Mojolicious
   $self->plugin('ViewBuilder');
 
-  # Mojolicious::Lite
+  # - Mojolicious::Lite
   plugin 'ViewBuilder';
 
-  # In the template where "profile" attached views should be
+  # then, use it in your template, declare a new area, labeled "profile"
   <%= pluggable_view 'profile' %>
 
-    # In the plugin, that will attach the new helper to the view
-    sub register {
+  # now, in the plugin, that will attach the new helper to the view
+  sub register {
     my ( $self, $app, $conf ) = @_;
-        $app->add_view("profile","test");
-        $app->helper(
-                test => sub {
-                    my $self=shift;
-                     return $self->render_to_string("test", some_data=> 1);
-                }
-            );
-    }
-    1;
 
-    # or, more compact:
-    sub register {
-      my ( $self, $app, $conf ) = @_;
-      $app->add_view(
-            profile => sub {
-                  shift->render_to_string("test", some_data=> 1);
-        });
-    }
-    1;
-    __DATA__
-    @@ test.html.ep
-    huuuray!
-    % if( stash("some_data") and stash("some_data")==1){
-     double it!
-    % }
+    $app->helper(
+                      test =>   sub { shift->render_to_string("test", some_data=> 1);}
+    );
+    $app->add_view("profile","test"); #attach the test helper to the view "profile"
+
+  }
+  1;
+
+  # or you can append a callback
+
+  sub register {
+    my ( $self, $app, $conf ) = @_;
+    $app->add_view(
+        profile => sub { shift->render_to_string("test", some_data=> 1);}
+      );
+  }
+  1;
+  __DATA__
+  @@ test.html.ep
+  huuuray!
+  % if( stash("some_data") and stash("some_data")==1){
+   double it!
+  % }
 
 =head1 DESCRIPTION
 
