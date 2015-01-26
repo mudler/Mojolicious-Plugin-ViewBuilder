@@ -2,6 +2,10 @@ Revision history for Perl extension Mojolicious-Plugin-ViewBuilder
 
 {{$NEXT}}
 
+0.05 2015-01-26T22:53:55Z
+
+    - Minor fixes
+
 0.04 2014-11-19T22:23:10Z
 
     - POD fix
