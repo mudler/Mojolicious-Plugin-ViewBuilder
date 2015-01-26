@@ -4,7 +4,7 @@
       "mudler <mudler@dark-lab.net>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v2.1.1, CPAN::Meta::Converter version 2.142060",
+   "generated_by" : "Minilla/v2.2.1, CPAN::Meta::Converter version 2.142060",
    "license" : [
       "perl_5"
    ],
@@ -43,12 +43,12 @@
       },
       "runtime" : {
          "requires" : {
-            "Mojo::Base" : "0"
+            "Mojolicious" : "0"
          }
       },
       "test" : {
          "requires" : {
-            "Mojolicious::Lite" : "0",
+            "Mojolicious" : "5.0",
             "Test::Mojo" : "0",
             "Test::More" : "0.98"
          }
@@ -66,5 +66,5 @@
          "web" : "https://github.com/mudler/Mojolicious-Plugin-ViewBuilder"
       }
    },
-   "version" : "0.04"
+   "version" : "0.06"
 }

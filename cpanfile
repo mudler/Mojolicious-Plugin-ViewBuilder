@@ -1,4 +1,4 @@
-requires 'Mojo::Base';
+requires 'Mojolicious';
 
 on configure => sub {
     requires 'Module::Build::Tiny', '0.035';
@@ -6,7 +6,7 @@ on configure => sub {
 };
 
 on test => sub {
-    requires 'Mojolicious::Lite';
+    requires 'Mojolicious' => '5.0';
     requires 'Test::Mojo';
     requires 'Test::More', '0.98';
 };
